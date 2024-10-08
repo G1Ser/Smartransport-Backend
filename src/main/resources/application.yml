@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/mybatis_db
+    url: jdbc:postgresql://localhost:5432/smart_traffic
     username: postgres
     password: 8023cc
 mybatis:

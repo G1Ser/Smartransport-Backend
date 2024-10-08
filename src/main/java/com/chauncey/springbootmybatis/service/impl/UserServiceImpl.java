@@ -11,7 +11,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
     @Override
-    public User findById(Integer id){
-        return userMapper.findById(id);
+    public User findByUserName(String username) {
+        User u  = userMapper.findByUserName(username);
+        return u;
+    }
+
+    @Override
+    public void register(String username, String password) {
+        //密码加密
     }
 }

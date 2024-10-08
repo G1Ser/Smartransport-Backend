@@ -3,5 +3,8 @@ package com.chauncey.springbootmybatis.service;
 import com.chauncey.springbootmybatis.entity.User;
 
 public interface UserService {
-    public User findById(Integer id);
+    //根据用户名查询用户
+    User findByUserName(String username);
+    //注册
+    void register(String username, String password);
 }
