@@ -9,6 +9,7 @@
         select *
         from users
         where username = #{username}
+        and is_delete = 0
     </select>
     <!--  添加新用户  -->
     <insert id="addUser">
