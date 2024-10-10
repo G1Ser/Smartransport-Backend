@@ -7,12 +7,13 @@
         select * from users
         <where>
             <if test="username!=null">
-                username=#{username}
+                and LOWER(username) LIKE LOWER(CONCAT('%', #{username}, '%'))
             </if>
             <if test="authority!=null">
-                authority=#{authority}
+                and "authority"=#{authority}
             </if>
             and is_delete = 0
+            and authority !=0
         </where>
     </select>
 </mapper>
