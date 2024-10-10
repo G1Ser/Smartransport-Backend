@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chauncey.springbootmybatis.mapper.UserMapper">
 
-    <!-- 根据用户名查询用户数据：User findByUsername(String username) -->
+    <!-- 根据用户名查询用户数据-->
     <select id="findByUserName" resultType="com.chauncey.springbootmybatis.entity.User">
         select *
         from users
