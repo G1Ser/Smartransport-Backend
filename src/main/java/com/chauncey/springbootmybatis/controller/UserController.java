@@ -1,5 +1,6 @@
 package com.chauncey.springbootmybatis.controller;
 
+import com.chauncey.springbootmybatis.dto.PwdForget;
 import com.chauncey.springbootmybatis.dto.PwdUpdate;
 import com.chauncey.springbootmybatis.dto.RegisterParams;
 import com.chauncey.springbootmybatis.entity.Result;
@@ -86,11 +87,11 @@ public class UserController {
         Map<String, Object> updates = new HashMap<>();
         //处理昵称更新
         if (nickname != null) {
-            updates.put("nickname",nickname);
+            updates.put("nickname", nickname);
         }
         //处理头像更新
-        if(avatarUrl != null){
-            updates.put("avatarUrl",avatarUrl);
+        if (avatarUrl != null) {
+            updates.put("avatarUrl", avatarUrl);
         }
         userService.updateUserInfo(updates);
         return Result.success();
@@ -113,5 +114,24 @@ public class UserController {
         }
         userService.updatePwd(user.getId(), new_pwd);
         return Result.success();
+    }
+
+    @PatchMapping("/forgetPwd")
+    @Operation(summary = "忘记密码")
+    public Result forgetPwd(@RequestBody @Validated PwdForget pwdForget) {
+        String phone = pwdForget.getPhone();
+        String new_pwd = pwdForget.getNew_password();
+        String re_pwd = pwdForget.getRe_password();
+        User isPhone = userService.findByPhone(phone);
+        if(isPhone != null){
+            if(!new_pwd.equals(re_pwd)){
+                return Result.error("两次密码输入不一致");
+            }
+            Long id = isPhone.getId();
+            userService.updatePwd(id,new_pwd);
+            return Result.success();
+        }else{
+            return Result.error("该手机号未注册");
+        }
     }
 }
