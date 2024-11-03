@@ -1,7 +1,7 @@
 package com.chauncey.springbootmybatis.controller;
 
 import com.chauncey.springbootmybatis.dto.PwdUpdate;
-import com.chauncey.springbootmybatis.dto.UserUpdate;
+import com.chauncey.springbootmybatis.dto.RegisterParams;
 import com.chauncey.springbootmybatis.entity.Result;
 import com.chauncey.springbootmybatis.entity.User;
 import com.chauncey.springbootmybatis.service.UserService;
@@ -9,7 +9,6 @@ import com.chauncey.springbootmybatis.utils.JwtUtils;
 import com.chauncey.springbootmybatis.utils.PasswordUtils;
 import com.chauncey.springbootmybatis.utils.ThreadLocalUtils;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.URL;
@@ -30,21 +29,24 @@ public class UserController {
 
     @PostMapping("/register")
     @Operation(summary = "用户注册")
-    public Result register(
-            @Parameter(description = "用户名必须是5-16位非空字符", required = true)
-            @RequestParam
-            @Pattern(regexp = "^\\S{5,16}$") String username,
-            @Parameter(description = "用户密码必须是5-16位非空字符", required = true)
-            @RequestParam
-            @Pattern(regexp = "^\\S{5,16}$") String password) {
-        //查询用户
-        User u = userService.findByUserName(username);
-        if (u == null) {
-            //注册
-            userService.register(username, password);
-            return Result.success();
+    public Result register(@RequestBody @Validated RegisterParams params) {
+        String username = params.getUsername();
+        String password = params.getPassword();
+        String phone = params.getPhone();
+        //查询号码
+        User isPhone = userService.findByPhone(phone);
+        if (isPhone == null) {
+            //查询用户
+            User u = userService.findByUserName(username);
+            if (u == null) {
+                //注册
+                userService.register(username, password, phone);
+                return Result.success();
+            } else {
+                return Result.error("用户已存在");
+            }
         } else {
-            return Result.error("用户已存在");
+            return Result.error("手机号已被注册");
         }
     }
 
@@ -78,15 +80,19 @@ public class UserController {
 
     @PutMapping("/updateUserInfo")
     @Operation(summary = "更改用户信息")
-    public Result updateUserInfo(@RequestBody @Validated UserUpdate userUpdate) {
-        userService.update(userUpdate);
-        return Result.success();
-    }
-
-    @PatchMapping("/updateAvatar")
-    @Operation(summary = "更改用户头像")
-    public Result updateAvatar(@RequestParam @URL String avatarUrl) {
-        userService.updateAvatar(avatarUrl);
+    public Result updateUserInfo(
+            @RequestParam(required = false) @Pattern(regexp = "^\\S{1,10}$") String nickname,
+            @RequestParam(required = false) @URL String avatarUrl) {
+        Map<String, Object> updates = new HashMap<>();
+        //处理昵称更新
+        if (nickname != null) {
+            updates.put("nickname",nickname);
+        }
+        //处理头像更新
+        if(avatarUrl != null){
+            updates.put("avatarUrl",avatarUrl);
+        }
+        userService.updateUserInfo(updates);
         return Result.success();
     }
 

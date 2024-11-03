@@ -9,25 +9,35 @@
         select *
         from users
         where username = #{username}
-        and is_delete = 0
+    </select>
+    <!-- 查询手机号是否被注册-->
+    <select id="findByPhone" resultType="com.chauncey.springbootmybatis.entity.User">
+        select *
+        from users
+        where phone = #{phone}
     </select>
     <!--  添加新用户  -->
     <insert id="addUser">
-        insert into users(username, nickname, password)
-        values (#{username}, #{username}, #{encodePassword})
+        insert into users(username, nickname, password, phone)
+        values (#{username}, #{username}, #{encodePassword}, #{phone})
     </insert>
-    <!--  修改用户昵称-->
-    <update id="update">
-        update users
-        set nickname=#{nickname}
-        where id = #{id}
+    <!--  修改用户信息-->
+    <update id="updateUserInfo">
+        UPDATE users
+        <set>
+            <if test="nickname != null">
+                nickname = #{nickname}
+            </if>
+            <if test="avatarUrl != null">
+                <if test="nickname != null">
+                    , <!-- 仅在昵称存在时才添加逗号 -->
+                </if>
+                avatar = #{avatarUrl}
+            </if>
+        </set>
+        WHERE id = #{id}
     </update>
-    <!--  修改用户头像-->
-    <update id="updateAvatar">
-        update users
-        set avatar=#{avatarUrl}
-        where id = #{id}
-    </update>
+
     <!--  修改用户密码-->
     <update id="updatePwd">
         update users

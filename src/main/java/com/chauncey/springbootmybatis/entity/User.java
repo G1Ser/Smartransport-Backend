@@ -16,6 +16,9 @@ public class User {
     @Schema(description = "用户密码")
     @JsonIgnore
     private String password;
+    @Schema(description = "用户电话")
+    @JsonIgnore
+    private String phone;
     @Schema(description = "用户权限 0-admin 1-common user 2-traffic manager")
     private Integer authority;
     @Schema(description = "用户头像")

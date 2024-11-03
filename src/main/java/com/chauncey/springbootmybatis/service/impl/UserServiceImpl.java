@@ -1,6 +1,5 @@
 package com.chauncey.springbootmybatis.service.impl;
 
-import com.chauncey.springbootmybatis.dto.UserUpdate;
 import com.chauncey.springbootmybatis.entity.User;
 import com.chauncey.springbootmybatis.mapper.UserMapper;
 import com.chauncey.springbootmybatis.service.UserService;
@@ -23,28 +22,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void register(String username, String password) {
+    public void register(String username, String password, String phone) {
         // 密码加密
         String encodePassword = PasswordUtils.md5Password(password);
         // 添加
-        userMapper.addUser(username, encodePassword);
+        userMapper.addUser(username, encodePassword, phone);
     }
 
     @Override
-    public void update(UserUpdate userUpdate) {
-        userMapper.update(userUpdate);
-    }
-
-    @Override
-    public void updateAvatar(String avatarUrl) {
+    public void updateUserInfo(Map<String, Object> updates) {
         Map<String, Object> map = ThreadLocalUtils.get();
         Integer id = (Integer) map.get("id");
-        userMapper.updateAvatar(avatarUrl, id);
+        String nickname = updates.containsKey("nickname") ? (String) updates.get("nickname") : null;
+        String avatarUrl = updates.containsKey("avatarUrl") ? (String) updates.get("avatarUrl") : null;
+        userMapper.updateUserInfo(id, nickname, avatarUrl);
     }
 
     @Override
     public void updatePwd(Long id, String new_pwd) {
         String encodePassword = PasswordUtils.md5Password(new_pwd);
         userMapper.updatePwd(id, encodePassword);
+    }
+
+    @Override
+    public User findByPhone(String phone) {
+        User u = userMapper.findByPhone(phone);
+        return u;
     }
 }

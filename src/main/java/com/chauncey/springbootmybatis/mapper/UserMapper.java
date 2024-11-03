@@ -1,8 +1,8 @@
 package com.chauncey.springbootmybatis.mapper;
 
-import com.chauncey.springbootmybatis.dto.UserUpdate;
 import com.chauncey.springbootmybatis.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserMapper {
@@ -10,11 +10,12 @@ public interface UserMapper {
     User findByUserName(String username);
 
     //添加新用户
-    void addUser(String username, String encodePassword);
-
-    void update(UserUpdate user);
-
-    void updateAvatar(String avatarUrl, Integer id);
+    void addUser(String username, String encodePassword, String phone);
 
     void updatePwd(Long id, String encodePassword);
+
+    User findByPhone(String phone);
+
+    // 更新用户信息
+    void updateUserInfo(@Param("id") Integer id, @Param("nickname") String nickname, @Param("avatarUrl") String avatarUrl);
 }
