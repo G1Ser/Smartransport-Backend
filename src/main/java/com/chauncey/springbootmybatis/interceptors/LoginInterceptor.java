@@ -1,7 +1,9 @@
 package com.chauncey.springbootmybatis.interceptors;
 
+import com.chauncey.springbootmybatis.entity.Result;
 import com.chauncey.springbootmybatis.utils.JwtUtils;
 import com.chauncey.springbootmybatis.utils.ThreadLocalUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
@@ -22,7 +24,16 @@ public class LoginInterceptor implements HandlerInterceptor {
             ThreadLocalUtils.set(claims);
             return true;
         }catch (Exception e){
-            response.setStatus(401);
+            // 设置响应内容类型为 JSON
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+
+            // 创建失败的结果
+            Result<?> result = Result.error(401);
+
+            // 写入响应内容
+            ObjectMapper objectMapper = new ObjectMapper();
+            response.getWriter().write(objectMapper.writeValueAsString(result));
             return false;
         }
     }
