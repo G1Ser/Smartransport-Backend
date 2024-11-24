@@ -85,6 +85,9 @@ public class UserController {
             @RequestParam(required = false) @Pattern(regexp = "^\\S{1,10}$") String nickname,
             @RequestParam(required = false) @URL String avatarUrl) {
         Map<String, Object> updates = new HashMap<>();
+        if(nickname ==null && avatarUrl == null){
+            return Result.success();
+        }
         //处理昵称更新
         if (nickname != null) {
             updates.put("nickname", nickname);
