@@ -35,20 +35,16 @@ public class UserController {
         String password = params.getPassword();
         String phone = params.getPhone();
         //查询号码
-        User isPhone = userService.findByPhone(phone);
-        if (isPhone == null) {
-            //查询用户
-            User u = userService.findByUserName(username);
-            if (u == null) {
-                //注册
-                userService.register(username, password, phone);
-                return Result.success();
-            } else {
-                return Result.error("用户已存在");
-            }
-        } else {
+        if(userService.findByPhone(phone) != null){
             return Result.error("手机号已被注册");
         }
+        //查询用户
+        if(userService.findByUserName(username) !=null){
+            return Result.error("用户已存在");
+        }
+        //注册新用户
+        userService.register(username,password,phone);
+        return Result.success();
     }
 
     @PostMapping("/login")
@@ -115,7 +111,7 @@ public class UserController {
         if (!new_pwd.equals(re_pwd)) {
             return Result.error("两次密码输入不一致");
         }
-        userService.updatePwd(user.getId(), new_pwd);
+        userService.updatePwd(username, new_pwd);
         return Result.success();
     }
 
@@ -126,15 +122,17 @@ public class UserController {
         String new_pwd = pwdForget.getNew_password();
         String re_pwd = pwdForget.getRe_password();
         User isPhone = userService.findByPhone(phone);
-        if(isPhone != null){
-            if(!new_pwd.equals(re_pwd)){
-                return Result.error("两次密码输入不一致");
-            }
-            Long id = isPhone.getId();
-            userService.updatePwd(id,new_pwd);
-            return Result.success();
-        }else{
+        //检查手机号是否已经注册
+        if(isPhone == null){
             return Result.error("该手机号未注册");
         }
+        //验证密码是否一致
+        if(!new_pwd.equals(re_pwd)){
+            return Result.error("两次密码输入不一致");
+        }
+        //更新密码
+        String username = isPhone.getUsername();
+        userService.updatePwd(username,new_pwd);
+        return Result.success();
     }
 }

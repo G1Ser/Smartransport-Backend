@@ -32,16 +32,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserInfo(Map<String, Object> updates) {
         Map<String, Object> map = ThreadLocalUtils.get();
-        Integer id = (Integer) map.get("id");
+        String username = (String) map.get("username");
         String nickname = updates.containsKey("nickname") ? (String) updates.get("nickname") : null;
         String avatarUrl = updates.containsKey("avatarUrl") ? (String) updates.get("avatarUrl") : null;
-        userMapper.updateUserInfo(id, nickname, avatarUrl);
+        userMapper.updateUserInfo(username, nickname, avatarUrl);
     }
 
     @Override
-    public void updatePwd(Long id, String new_pwd) {
+    public void updatePwd(String username, String new_pwd) {
         String encodePassword = PasswordUtils.md5Password(new_pwd);
-        userMapper.updatePwd(id, encodePassword);
+        userMapper.updatePwd(username, encodePassword);
     }
 
     @Override

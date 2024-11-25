@@ -23,7 +23,7 @@
     </insert>
     <!--  修改用户信息-->
     <update id="updateUserInfo">
-        UPDATE users
+        update users
         <set>
             <if test="nickname != null">
                 nickname = #{nickname}
@@ -35,13 +35,13 @@
                 avatar = #{avatarUrl}
             </if>
         </set>
-        WHERE id = #{id}
+        where username = #{username}
     </update>
 
     <!--  修改用户密码-->
     <update id="updatePwd">
         update users
         set password=#{encodePassword}
-        where id = #{id}
+        where username = #{username}
     </update>
 </mapper>

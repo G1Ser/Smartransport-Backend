@@ -9,11 +9,12 @@ import java.util.List;
 public interface AdminMapper {
     List<User> getUserList(String username, Integer authority);
 
-    void resetUserPassword(Integer id, String encodePassword);
+    void resetUserPassword(String username, String encodePassword);
 
-    void deleteUser(Integer id);
+    void deleteUser(String username);
 
-    User findById(Integer id);
 
-    void changeUserAuthority(Integer id, Integer authority);
+    void changeUserAuthority(String username, Integer authority);
+
+    void addDeleteLog(String username, String nickname, String phone, String password, String avatar, Integer authority, String operator);
 }

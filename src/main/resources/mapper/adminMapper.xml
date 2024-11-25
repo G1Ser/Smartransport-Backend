@@ -13,33 +13,29 @@
             <if test="authority!=null">
                 and "authority"=#{authority}
             </if>
-            and is_delete = 0
             and authority !=0
         </where>
-    </select>
-    <!--根据id查询用户-->
-    <select id="findById" resultType="com.chauncey.springbootmybatis.entity.User">
-        select *
-        from users
-        where id = #{id}
-        and is_delete = 0
     </select>
     <!--重置用户密码-->
     <update id="resetUserPassword">
         update users
         set password=#{encodePassword}
-        where id = #{id}
+        where username = #{username}
     </update>
     <!--删除用户-->
-    <update id="deleteUser">
-        update users
-        set is_delete = 1
-        where id = #{id}
-    </update>
+    <delete id="deleteUser">
+        delete from users
+        where username = #{username}
+    </delete>
+    <!--添加对应的日志表-->
+    <insert id="addDeleteLog">
+        insert into deleted_users(username, password, authority,avatar,nickname,phone,operator)
+        values (#{username}, #{password}, #{authority}, #{avatar},#{nickname},#{phone},#{operator})
+    </insert>
     <!--更改用户权限-->
     <update id="changeUserAuthority">
         update users
         set authority = #{authority}
-        where id = #{id}
+        where username = #{username}
     </update>
 </mapper>

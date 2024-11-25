@@ -12,10 +12,10 @@ public interface UserMapper {
     //添加新用户
     void addUser(String username, String encodePassword, String phone);
 
-    void updatePwd(Long id, String encodePassword);
+    void updatePwd(String username, String encodePassword);
 
     User findByPhone(String phone);
 
     // 更新用户信息
-    void updateUserInfo(@Param("id") Integer id, @Param("nickname") String nickname, @Param("avatarUrl") String avatarUrl);
+    void updateUserInfo(@Param("username") String username, @Param("nickname") String nickname, @Param("avatarUrl") String avatarUrl);
 }

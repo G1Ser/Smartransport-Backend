@@ -14,7 +14,7 @@ public interface UserService {
     void updateUserInfo(Map<String, Object> updates);
 
     //修改用户密码
-    void updatePwd(Long id, String new_pwd);
+    void updatePwd(String username, String new_pwd);
 
     User findByPhone(String phone);
 }

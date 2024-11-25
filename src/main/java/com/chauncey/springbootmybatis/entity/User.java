@@ -29,7 +29,4 @@ public class User {
     @Schema(description = "更新时间")
     @JsonIgnore
     private LocalDateTime updateTime;
-    @Schema(description = "是否删除")
-    @JsonIgnore
-    private Integer isDelete;
 }
