@@ -28,3 +28,10 @@ knife4j:
   enable: true
 server:
   port: 8090
+cloud:
+  server:
+    host: 122.51.167.25
+    port: 22
+    username: root
+    password: 8023CC1129hh
+    remoteDir: /home/img_upload
