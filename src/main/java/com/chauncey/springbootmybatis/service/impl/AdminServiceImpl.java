@@ -57,7 +57,7 @@ public class AdminServiceImpl implements AdminService {
         Map<String, Object> map = ThreadLocalUtils.get();
         String operator = (String) map.get("username");
         //增加到users log表里面对应的数据
-        adminMapper.addDeleteLog(username,nickname,phone,password,avatar,authority,operator);
+        adminMapper.addDeleteLog(username,nickname,phone,password,authority,operator);
     }
 
     @Override

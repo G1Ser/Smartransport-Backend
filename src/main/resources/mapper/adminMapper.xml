@@ -29,8 +29,8 @@
     </delete>
     <!--添加对应的日志表-->
     <insert id="addDeleteLog">
-        insert into deleted_users(username, password, authority,avatar,nickname,phone,operator)
-        values (#{username}, #{password}, #{authority}, #{avatar},#{nickname},#{phone},#{operator})
+        insert into deleted_users(username, password, authority,nickname,phone,operator)
+        values (#{username}, #{password}, #{authority},#{nickname},#{phone},#{operator})
     </insert>
     <!--更改用户权限-->
     <update id="changeUserAuthority">

@@ -8,4 +8,6 @@ import java.io.IOException;
 
 public interface FileUploadService {
     String uploadFileToServer(MultipartFile file, String folderName, String username) throws JSchException, SftpException, IOException;
+
+    void removeFolderFromServer(String folderName, String username) throws JSchException, SftpException;
 }

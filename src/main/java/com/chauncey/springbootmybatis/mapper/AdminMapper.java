@@ -16,5 +16,5 @@ public interface AdminMapper {
 
     void changeUserAuthority(String username, Integer authority);
 
-    void addDeleteLog(String username, String nickname, String phone, String password, String avatar, Integer authority, String operator);
+    void addDeleteLog(String username, String nickname, String phone, String password, Integer authority, String operator);
 }
