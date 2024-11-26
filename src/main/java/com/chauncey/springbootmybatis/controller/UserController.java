@@ -79,7 +79,7 @@ public class UserController {
     @Operation(summary = "更改用户信息")
     public Result updateUserInfo(
             @RequestParam(required = false) @Pattern(regexp = "^\\S{1,10}$") String nickname,
-            @RequestParam(required = false) @URL String avatarUrl) {
+            @RequestParam(required = false) String avatarUrl) {
         Map<String, Object> updates = new HashMap<>();
         if(nickname ==null && avatarUrl == null){
             return Result.success();
