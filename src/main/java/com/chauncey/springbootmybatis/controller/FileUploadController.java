@@ -8,6 +8,7 @@ import com.chauncey.springbootmybatis.utils.ThreadLocalUtils;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +27,8 @@ public class FileUploadController {
     @PostMapping("/uploadFile")
     @Operation(summary = "上传文件")
     public Result uploadFile(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("folderName") String folderName
+            @RequestParam @Parameter(description = "文件夹 user_avatar-用户头像文件夹") String folderName,
+            @RequestParam @Parameter(description = "本地文件") MultipartFile file
             ) throws JSchException, SftpException, IOException {
         Map<String, Object> map = ThreadLocalUtils.get();
         String username = (String) map.get("username");
@@ -37,7 +38,9 @@ public class FileUploadController {
     }
     @PostMapping("/removeFolder")
     @Operation(summary = "删除文件夹")
-    public Result removeFolder(String folderName,String username) throws JSchException, SftpException {
+    public Result removeFolder(
+            @RequestParam @Parameter(description = "文件夹 user_avatar-用户头像文件夹") String folderName,
+            @RequestParam @Parameter(description = "用户名") String username) throws JSchException, SftpException {
         User user = userService.findByUserName(username);
         if(user == null){
             return Result.error("用户不存在");

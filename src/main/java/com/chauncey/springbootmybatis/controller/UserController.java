@@ -10,9 +10,9 @@ import com.chauncey.springbootmybatis.utils.JwtUtils;
 import com.chauncey.springbootmybatis.utils.PasswordUtils;
 import com.chauncey.springbootmybatis.utils.ThreadLocalUtils;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Pattern;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +49,9 @@ public class UserController {
 
     @PostMapping("/login")
     @Operation(summary = "用户登录")
-    public Result<String> login(String username, String password) {
+    public Result<String> login(
+            @RequestParam @Parameter(description = "用户名") String username,
+            @RequestParam @Parameter(description = "用户密码") String password) {
         User u = userService.findByUserName(username);
         if (u == null) {
             return Result.error("用户不存在");
@@ -78,8 +80,8 @@ public class UserController {
     @PutMapping("/updateUserInfo")
     @Operation(summary = "更改用户信息")
     public Result updateUserInfo(
-            @RequestParam(required = false) @Pattern(regexp = "^\\S{1,10}$") String nickname,
-            @RequestParam(required = false) String avatarUrl) {
+            @RequestParam(required = false) @Pattern(regexp = "^\\S{1,10}$") @Parameter(description = "用户昵称必须是1-10的非空字符") String nickname,
+            @RequestParam(required = false) @Parameter(description = "用户头像") String avatarUrl) {
         Map<String, Object> updates = new HashMap<>();
         if(nickname ==null && avatarUrl == null){
             return Result.success();
