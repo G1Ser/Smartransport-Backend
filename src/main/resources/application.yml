@@ -5,6 +5,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/smart_traffic
     username: postgres
     password: 8023cc
+  servlet:
+    multipart:
+      max-file-size: 2MB
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
