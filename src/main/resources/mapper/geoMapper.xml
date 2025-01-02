@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chauncey.springbootmybatis.mapper.GeoMapper">
+    <!-- 查询相机数据-->
+    <resultMap id="cameraResultMap" type="com.chauncey.springbootmybatis.entity.Camera">
+        <result property="geometry" column="geometry" typeHandler="com.chauncey.springbootmybatis.handler.GeometryTypeHandler"></result>
+    </resultMap>
+    <select id="getCameraData" resultMap="cameraResultMap">
+        select *
+        from camera
+    </select>
+
+</mapper>
