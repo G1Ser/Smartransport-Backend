@@ -2,7 +2,6 @@ package com.chauncey.springbootmybatis.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.locationtech.jts.geom.Point;
 
 @Data
 public class Camera {
@@ -15,5 +14,5 @@ public class Camera {
     @Schema(description="视频流地址")
     private String url;
     @Schema(description="空间位置")
-    private Point geometry;
+    private String geometry;
 }
