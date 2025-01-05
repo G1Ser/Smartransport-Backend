@@ -1,5 +1,6 @@
 package com.chauncey.springbootmybatis.entity;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -14,5 +15,5 @@ public class Camera {
     @Schema(description="视频流地址")
     private String url;
     @Schema(description="空间位置")
-    private String geometry;
+    private JsonNode geometry;
 }

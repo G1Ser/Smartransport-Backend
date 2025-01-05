@@ -2,6 +2,7 @@ package com.chauncey.springbootmybatis.controller;
 import com.chauncey.springbootmybatis.entity.Camera;
 import com.chauncey.springbootmybatis.entity.Result;
 import com.chauncey.springbootmybatis.service.GeoService;
+import com.chauncey.springbootmybatis.utils.GeoJSONUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/geo")
@@ -20,8 +22,8 @@ public class GeoController {
 
     @GetMapping("/cameraData")
     @Operation(summary = "获取摄像头数据")
-    public Result<List<Camera>> getCameraData() {
+    public Result<Map<String, Object>> getCameraData() {
         List<Camera> cameras = geoService.getCameraData();
-        return Result.success(cameras);
+        return Result.success(GeoJSONUtils.convertToGeoJSON(cameras));
     }
 }
